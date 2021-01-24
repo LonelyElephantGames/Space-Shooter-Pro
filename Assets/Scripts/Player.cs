@@ -141,7 +141,7 @@ public class Player : MonoBehaviour
             return;
         }
                 
-         lives--;
+        lives--;
         uiManager.UpdateLivesImage(lives);
 
         if(lives == 2)
@@ -154,7 +154,7 @@ public class Player : MonoBehaviour
             rightEngineFire.SetActive(true);
         }
 
-         if (lives < 1)
+        if (lives < 1)
             {
                 spawnManager.OnPlayerDeath();
                 Instantiate(explosionAnim, transform.position, Quaternion.identity);
@@ -162,6 +162,25 @@ public class Player : MonoBehaviour
             }       
     }
 
+    public void AddLife()
+    {
+        lives++;
+        if(lives > 3)
+        {
+            lives = 3;
+        }
+
+        uiManager.UpdateLivesImage(lives);
+
+        //update visual damage
+        leftEngineFire.SetActive(false);
+        rightEngineFire.SetActive(false);
+
+        if (lives == 2)
+        {
+            leftEngineFire.SetActive(true);
+        }
+    }
 
     public void EnableTripleShot()
     {

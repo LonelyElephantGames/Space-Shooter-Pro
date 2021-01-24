@@ -68,6 +68,7 @@ transform.Translate(Vector3.down * speed * Time.deltaTime);
                 player.Damage();
             }
 
+            canFire = Time.time + 100f; //make sure it does not fire again before destroying itself
             anim.SetTrigger("OnEnemyDeath");
             speed = 0.5f;
             PlayExplosionAudio();
@@ -83,6 +84,7 @@ transform.Translate(Vector3.down * speed * Time.deltaTime);
             }
             Destroy(other.gameObject);
 
+            canFire = Time.time + 100f; //make sure it does not fire again before destroying itself
             anim.SetTrigger("OnEnemyDeath");
             speed = 0;
             PlayExplosionAudio();

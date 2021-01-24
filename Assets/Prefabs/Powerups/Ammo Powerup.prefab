@@ -176,8 +176,8 @@ GameObject:
   - component: {fileID: 657611587897559588}
   - component: {fileID: 657611587897559584}
   m_Layer: 0
-  m_Name: AmmoPowerup
-  m_TagString: Untagged
+  m_Name: Ammo Powerup
+  m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42cf1b6c70dbe4f4f97dff973534d281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 2
   powerupID: 3
   audioClip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
 --- !u!50 &657611587897559589
