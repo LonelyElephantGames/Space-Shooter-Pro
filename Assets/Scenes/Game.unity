@@ -180,8 +180,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
-  speed: 5
-  boostedSpeed: 10
+  baseSpeed: 5
+  boostedSpeed: 7.5
   fireRate: 0.25
   laserPrefab: {fileID: 627860084992918608, guid: 27b3f94796f430f4f8660d44da2e6dfe,
     type: 3}

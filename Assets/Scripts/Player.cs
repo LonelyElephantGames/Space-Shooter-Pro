@@ -5,8 +5,9 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private int score;
-    [SerializeField] private float speed = 5f;
-    [SerializeField] private float boostedSpeed = 10f;
+    private float actualSpeed;
+    [SerializeField] private float baseSpeed = 5f;
+    [SerializeField] private float boostedSpeed = 10.0f;
     [SerializeField] private float fireRate = 0.25f;
     private float canFire = 0.0f;
     [SerializeField] private GameObject laserPrefab;
@@ -59,6 +60,16 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        //move at faster speed when left shift is held down
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            actualSpeed = boostedSpeed;
+        }
+        else
+        {
+            actualSpeed = baseSpeed;
+        }
     }
 
 
@@ -71,11 +82,11 @@ public class Player : MonoBehaviour
 
         if (isSpeedBoostActive)
         {
-            transform.Translate(direction * boostedSpeed * Time.deltaTime);
+            transform.Translate(direction * actualSpeed * 2.0f * Time.deltaTime);
         }
         else
         {
-            transform.Translate(direction * speed * Time.deltaTime);
+            transform.Translate(direction * actualSpeed * Time.deltaTime);
         }
         
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -4f, 0f), 0);
