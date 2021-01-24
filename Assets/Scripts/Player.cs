@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     private bool isSpeedBoostActive = false;
     private bool isTripleShotActive = false;
     private bool isShieldActive = false;
+    private int shieldStrength;
+    private int maxShieldStrength = 3;
     [SerializeField] private GameObject tripleShotPrefab;
     [SerializeField] private GameObject shieldsObject;
     [SerializeField] private GameObject leftEngineFire;
@@ -122,10 +124,11 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        //give the shields 3 hits before removing them
         if (isShieldActive == true)
         {
-            isShieldActive = false;
-            shieldsObject.SetActive(false);
+            shieldStrength -= 1;
+            DisplayShields();
             return;
         }
                 
@@ -179,8 +182,8 @@ public class Player : MonoBehaviour
 
     public void EnableShield()
     {
-        isShieldActive = true;
-        shieldsObject.SetActive(true);
+        shieldStrength = maxShieldStrength;
+        DisplayShields();
     }
 
 
@@ -188,5 +191,34 @@ public class Player : MonoBehaviour
     {
         score += pointValue;
         uiManager.UpdateScoreText(score);
+    }
+
+    void DisplayShields()
+    {
+        isShieldActive = true;
+        shieldsObject.SetActive(true);
+        Color temp = shieldsObject.GetComponent<SpriteRenderer>().color;
+
+        if(shieldStrength == 3)
+        {
+            temp.a = 1f;
+        }
+        else if(shieldStrength == 2)
+        {
+            temp.a = 0.30f;
+        }
+        else
+        {
+            temp.a = 0.075f;
+        }
+
+        shieldsObject.GetComponent<SpriteRenderer>().color = temp;
+        Debug.Log(shieldStrength);
+
+        if(shieldStrength < 1)
+        {
+            isShieldActive = false;
+            shieldsObject.SetActive(false);
+        }
     }
 }
