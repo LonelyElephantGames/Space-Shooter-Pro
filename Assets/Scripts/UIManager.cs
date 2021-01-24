@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private Text scoreText;
+    [SerializeField] private Text ammoCountText;
     [SerializeField] private Sprite[] livesSprites;
     [SerializeField] private Image livesImage;
     [SerializeField] private Text gameOverText;
@@ -44,6 +45,25 @@ public class UIManager : MonoBehaviour
         {
             GameOverSequence();
         }
+    }
+
+    public void UpdateAmmoCount(int currentAmmoCount)
+    {
+        string ammoText = "Ammo: ";
+
+        if (currentAmmoCount == 0)
+        {
+            ammoText += " EMPTY ";
+        }
+        else
+        {            
+            for (int i = 0; i < currentAmmoCount; i++)
+            {
+                ammoText += "I";
+            }
+        }
+
+        ammoCountText.text = ammoText;
     }
 
     IEnumerator GameOverFlickerRoutine()

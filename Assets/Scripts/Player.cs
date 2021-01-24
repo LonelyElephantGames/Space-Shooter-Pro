@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float boostedSpeed = 10.0f;
     [SerializeField] private float fireRate = 0.25f;
     private float canFire = 0.0f;
+    [SerializeField] private int ammoCount = 15;
     [SerializeField] private GameObject laserPrefab;
     [SerializeField] private int lives = 3;
     private SpawnManager spawnManager;
@@ -107,6 +108,11 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
+        if(ammoCount < 1)
+        {
+            return;
+        }
+
         canFire = Time.time + fireRate;
 
         if (isTripleShotActive == true)
@@ -119,6 +125,9 @@ public class Player : MonoBehaviour
         }
 
         audioSource.Play();
+
+        ammoCount--;
+        uiManager.UpdateAmmoCount(ammoCount);
     }
 
 
