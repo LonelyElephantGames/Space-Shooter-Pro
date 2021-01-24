@@ -195,6 +195,12 @@ public class Player : MonoBehaviour
         DisplayShields();
     }
 
+    public void AddAmmo()
+    {
+        ammoCount = 15;
+        uiManager.UpdateAmmoCount(ammoCount);
+    }
+
 
     public void IncreaseScore(int pointValue)
     {
