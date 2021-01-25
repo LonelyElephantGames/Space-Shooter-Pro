@@ -47,6 +47,9 @@ public class PowerUp : MonoBehaviour
                     case 4:
                         player.AddLife();
                         break;
+                    case 5:
+                        player.ActivateStarburst();
+                        break;
                     default:
                         break;
                 }

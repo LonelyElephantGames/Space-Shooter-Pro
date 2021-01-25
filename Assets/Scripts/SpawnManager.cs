@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject enemyContainer;
     [SerializeField] private GameObject[] powerups;
     [SerializeField] private bool stopSpawning = false;
+    private int starBurstCounter = 0;
+    [SerializeField] private bool canSpawnEnemy = true;
 
  
     public void StartSpawning()
@@ -27,7 +29,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3.0f);
 
-        while (stopSpawning == false)
+        while (stopSpawning == false && canSpawnEnemy == true)
         {
             Vector3 positionToSpawn = new Vector3(Random.Range(-9.0f, 9.0f), 8.0f, 0.0f);
             GameObject newEnemy = Instantiate(enemyPrefab, positionToSpawn, Quaternion.identity);
@@ -43,7 +45,24 @@ public class SpawnManager : MonoBehaviour
 
         while (stopSpawning == false)
         {
-            int randomPowerup = Random.Range(0, 5);
+            int randomPowerup = Random.Range(0, 6);
+
+            Debug.Log("Powerup #:" + randomPowerup);
+            
+            if(randomPowerup == 5)
+            {
+                Debug.Log("Starburst?");
+                starBurstCounter++;
+                if(starBurstCounter%2 == 0)
+                {
+                    Debug.Log("No starburst for you!");
+                    randomPowerup = Random.Range(0, 4);
+                }
+                else
+                {
+                    Debug.Log("You gotsa starburst!");
+                }
+            }
             Vector3 positionToSpawn = new Vector3(Random.Range(-9.0f, 9.0f), 8.0f, 0.0f);
             GameObject newPowerup = Instantiate(powerups[randomPowerup], positionToSpawn, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(5.0f, 10.0f));

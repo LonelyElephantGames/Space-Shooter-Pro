@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     private float canFire = 0.0f;
     [SerializeField] private int ammoCount = 15;
     [SerializeField] private GameObject laserPrefab;
+    [SerializeField] private bool isStarBurstActive = false;
+    [SerializeField] private GameObject starBurstPrefab1;
+    [SerializeField] private GameObject starBurstPrefab2;
+    [SerializeField] private GameObject starBurstPrefab3;
     [SerializeField] private int lives = 3;
     private SpawnManager spawnManager;
     private UIManager uiManager;
@@ -108,26 +112,35 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        if(ammoCount < 1)
+        if(ammoCount < 1 && isStarBurstActive == false)
         {
             return;
         }
 
         canFire = Time.time + fireRate;
 
-        if (isTripleShotActive == true)
+        if (isStarBurstActive == true)
         {
-            Instantiate(tripleShotPrefab, transform.position + new Vector3(0f, 1.05f, 0f), Quaternion.identity);
+            Instantiate(starBurstPrefab1, transform.position + new Vector3(-1f, 1.1f, 0f), Quaternion.identity);
+            Instantiate(starBurstPrefab2, transform.position + new Vector3(0f, 1.1f, 0f), Quaternion.identity);
+            Instantiate(starBurstPrefab3, transform.position + new Vector3(1f, 1.1f, 0f), Quaternion.identity);
+            audioSource.Play();
         }
         else
         {
-            Instantiate(laserPrefab, transform.position + new Vector3(0f, 1.05f, 0f), Quaternion.identity);
+            if (isTripleShotActive == true)
+            {
+                Instantiate(tripleShotPrefab, transform.position + new Vector3(0f, 1.05f, 0f), Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(laserPrefab, transform.position + new Vector3(0f, 1.05f, 0f), Quaternion.identity);
+            }
+            audioSource.Play();
+
+            ammoCount--;
+            uiManager.UpdateAmmoCount(ammoCount);
         }
-
-        audioSource.Play();
-
-        ammoCount--;
-        uiManager.UpdateAmmoCount(ammoCount);
     }
 
 
@@ -220,6 +233,17 @@ public class Player : MonoBehaviour
         uiManager.UpdateAmmoCount(ammoCount);
     }
 
+    public void ActivateStarburst()
+    {
+        isStarBurstActive = true;
+        StartCoroutine(StarburstPowerDown());
+    }
+
+    IEnumerator StarburstPowerDown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        isStarBurstActive = false;
+    }
 
     public void IncreaseScore(int pointValue)
     {
@@ -247,7 +271,6 @@ public class Player : MonoBehaviour
         }
 
         shieldsObject.GetComponent<SpriteRenderer>().color = temp;
-        Debug.Log(shieldStrength);
 
         if(shieldStrength < 1)
         {
