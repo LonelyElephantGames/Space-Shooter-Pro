@@ -47,20 +47,12 @@ public class SpawnManager : MonoBehaviour
         {
             int randomPowerup = Random.Range(0, 6);
 
-            Debug.Log("Powerup #:" + randomPowerup);
-            
             if(randomPowerup == 5)
             {
-                Debug.Log("Starburst?");
                 starBurstCounter++;
                 if(starBurstCounter%2 == 0)
                 {
-                    Debug.Log("No starburst for you!");
-                    randomPowerup = Random.Range(0, 4);
-                }
-                else
-                {
-                    Debug.Log("You gotsa starburst!");
+                    randomPowerup = Random.Range(0, 4); //reroll
                 }
             }
             Vector3 positionToSpawn = new Vector3(Random.Range(-9.0f, 9.0f), 8.0f, 0.0f);

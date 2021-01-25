@@ -31,6 +31,12 @@ public class Player : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField] private AudioClip laserSoundClip;
     [SerializeField] private GameObject explosionAnim;
+    [SerializeField] private GameObject mainCamera;
+    private Vector3 initialCameraPosition;
+    private float remainingShakeTime;
+    [SerializeField] private float shakeDuration = 1.0f;
+    [SerializeField] private float shakeStrength = 1.0f;
+    private bool shouldCameraShake;
     
 
     // Start is called before the first frame update
@@ -55,6 +61,9 @@ public class Player : MonoBehaviour
         {
             audioSource.clip = laserSoundClip;
         }
+
+        initialCameraPosition = mainCamera.transform.position;
+        shouldCameraShake = false;
     }
 
 
@@ -76,6 +85,18 @@ public class Player : MonoBehaviour
         else
         {
             actualSpeed = baseSpeed;
+        }
+
+        //shake camera if needed
+        if(remainingShakeTime <= 0)
+        {
+            mainCamera.transform.position = initialCameraPosition;
+            shouldCameraShake = false;
+        }
+        else
+        {
+            mainCamera.transform.Translate(Random.insideUnitCircle * shakeStrength);
+            remainingShakeTime -= Time.deltaTime;
         }
     }
 
@@ -155,6 +176,9 @@ public class Player : MonoBehaviour
         }
                 
         lives--;
+        shouldCameraShake = true;
+        shakeStrength = ( 3f - lives ) / 10f;
+        remainingShakeTime = shakeDuration;
         uiManager.UpdateLivesImage(lives);
 
         if(lives == 2)
